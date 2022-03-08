@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.github.acshmily</groupId>
+    <artifactId>spring-boot-mask-info-starter</artifactId>
+    <version>1.0</version>
+    <description>信息加密插件</description>
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <java.version>1.8</java.version>
+        <spring-boot.version>2.6.4</spring-boot.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>${spring-boot.version}</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+    <name>encrypt-jpa-spring-boot-starter</name>
+    <url>https://github.com/acshmily/encryp-jpa-spring-boot-starter</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/acshmily/spring-boot-mask-info-starter</url>
+        <connection>scm:git:https://github.com/acshmily/spring-boot-mask-info-starter.git</connection>
+        <developerConnection>scm:git:https://github.com/acshmily/spring-boot-mask-info-starter.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/acshmily/spring-boot-mask-info-starter/issues</url>
+    </issueManagement>
+
+    <developers>
+        <developer>
+            <name>acshmily</name>
+            <email>npc@newbie.town</email>
+            <url>https://github.com/acshmily</url>
+        </developer>
+    </developers>
+    <!-- 发布管理信息 -->
+    <distributionManagement>
+        <repository>
+            <!-- 这里的id必须要和全局配置中的release id 一致 -->
+            <id>sonatype_releases</id>
+            <name>Nexus Release Repository</name>
+            <!-- 这里就是在创建issue成功后，对方回复的release发布地址-->
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <!-- 这里的id必须要和全局配置中的snapshot id 一致 -->
+            <id>sonatype_snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <!-- 这里就是在创建issue成功后，对方回复的snapshot发布地址-->
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <!-- 这里的id必须要和全局配置中的release id 一致 -->
+                    <serverId>sonatype_releases</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <!-- 如果希望发布后自动执行close和release操作，此处可以调整为true -->
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 生成asc 校验文件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <!-- 必须和配置中的gpg校验id一致 -->
+                        <id>gpg</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
