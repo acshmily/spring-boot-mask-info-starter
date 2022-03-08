@@ -25,7 +25,7 @@ public class Application {
     }
 }
 ```
-## modify your pojo
+## Modify your pojo
 ```java
 @Data
 public class UserDemo {
@@ -42,7 +42,7 @@ public class UserDemo {
     private String idCard;
 }
 ```
-## modify your Controller
+## Modify your Controller
 
 ```java
 import com.github.acshmily.maskinfo.announce.Mask;
