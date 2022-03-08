@@ -29,7 +29,7 @@ public class Application {
 ```java
 @Data
 public class UserDemo {
-    @MaskType(Strategy = MaskType.Strategy.NAME,maskString = "|")
+    @MaskType(Strategy = MaskType.Strategy.NAME)
     private String name;
     private String age;
     @MaskType(Strategy = MaskType.Strategy.MOBILE)
