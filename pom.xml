@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.acshmily</groupId>
-    <artifactId>spring-boot-mask-info-starter</artifactId>
+    <artifactId>mask-info-spring-boot-starter</artifactId>
     <version>1.0</version>
     <description>信息加密插件</description>
     <properties>
