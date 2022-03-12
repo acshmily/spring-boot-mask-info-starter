@@ -3,7 +3,7 @@
 ## maven
 ```xml
 <dependency>
-    <groupId>com.github.acshmily</groupId>
+    <groupId>io.github.acshmily</groupId>
     <artifactId>mask-info-spring-boot-starter</artifactId>
     <version>1.0</version>
 </dependency>
