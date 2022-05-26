@@ -3,10 +3,10 @@ package com.github.acshmily.maskinfo.announce;
 import java.lang.annotation.*;
 
 /**
- * @Author: Huanghz
- * @description: 脱敏注解
- * @date:Created in 15:09 2022-3-4
- * @modifyBy:
+ * Author: Huanghz
+ * description: 脱敏注解
+ * date:Created in 15:09 2022-3-4
+ * modifyBy:
  **/
 @Documented
 @Target(value = {ElementType.FIELD})

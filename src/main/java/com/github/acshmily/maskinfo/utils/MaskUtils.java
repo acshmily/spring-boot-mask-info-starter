@@ -4,10 +4,10 @@ package com.github.acshmily.maskinfo.utils;
 import com.github.acshmily.maskinfo.announce.MaskType;
 
 /**
- * @Author: Huanghz
- * @description: 脱敏工具类
- * @date:Created in 10:23 2022-3-7
- * @modifyBy:
+ * Author: Huanghz
+ * description: 脱敏工具类
+ * date:Created in 10:23 2022-3-7
+ * modifyBy:
  **/
 
 public class MaskUtils {

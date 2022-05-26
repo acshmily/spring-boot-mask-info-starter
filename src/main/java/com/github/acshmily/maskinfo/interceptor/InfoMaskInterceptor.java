@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @Author: Huanghz
- * @description: AOP拦截器
- * @date:Created in 15:27 2022-3-4
- * @modifyBy:
+ * Author: Huanghz
+ * description: AOP拦截器
+ * date:Created in 15:27 2022-3-4
+ * modifyBy:
  **/
 @Aspect
 @Component
