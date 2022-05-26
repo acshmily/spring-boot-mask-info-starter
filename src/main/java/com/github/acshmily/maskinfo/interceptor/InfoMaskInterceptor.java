@@ -7,6 +7,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -34,13 +35,17 @@ public class InfoMaskInterceptor {
     @AfterReturning(value = "classCut()", returning = "result")
     public void doMask(JoinPoint joinPoint, Object result) throws Throwable {
         if (result instanceof List) {
-
             List temp1 = (List) result;
             for (Object obj : temp1) {
                 maskField(obj);
 
             }
-        } else {
+        } else if(result instanceof Page){
+            Page page = (Page) result;
+            for (Object obj: page.getContent()){
+                maskField(obj);
+            }
+        }else {
             maskField(result);
         }
     }

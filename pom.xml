@@ -10,13 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.acshmily</groupId>
     <artifactId>mask-info-spring-boot-starter</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <description>信息加密插件</description>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.6.4</spring-boot.version>
+        <spring-boot.version>[2.3.1,)</spring-boot.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     </properties>
@@ -25,19 +25,26 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
+            <scope>provided</scope>
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+            <scope>provided</scope>
             <version>${spring-boot.version}</version>
-            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>${spring-boot.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <name>encrypt-jpa-spring-boot-starter</name>
