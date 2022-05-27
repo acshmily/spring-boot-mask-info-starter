@@ -19,6 +19,7 @@
         <spring-boot.version>[2.3.1,)</spring-boot.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
     </properties>
 
     <dependencies>
@@ -47,8 +48,8 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <name>encrypt-jpa-spring-boot-starter</name>
-    <url>https://github.com/acshmily/encryp-jpa-spring-boot-starter</url>
+    <name>mask-info-spring-boot-starter</name>
+    <url>https://github.com/acshmily/spring-boot-mask-info-starter</url>
 
     <licenses>
         <license>
@@ -129,6 +130,31 @@
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <show>package</show>
+                    <tags>
+                        <tag>
+                            <name>date</name>
+                        </tag>
+                    </tags>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <doclint>none</doclint>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
