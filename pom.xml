@@ -168,8 +168,8 @@
                         <version>${central-publishing-maven-plugin.version}</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <!-- 对应 settings.xml 中 <server><id>central</id> 的 Portal user token -->
-                            <publishingServerId>central</publishingServerId>
+                            <!-- 对应 settings.xml 中 <server><id>sonatype-central</id> 的 Portal user token -->
+                            <publishingServerId>sonatype-central</publishingServerId>
                             <autoPublish>true</autoPublish>
                             <waitUntil>uploaded</waitUntil>
                         </configuration>

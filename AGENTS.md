@@ -91,7 +91,7 @@ mvn -B verify    # 编译 + 全量测试 + javadoc/sources jar（无需 GPG，�
 
 **新增返回类型支持**（如 `Map`、`Optional`）：在 `InfoMaskInterceptor.maskResult` 的分发逻辑中添加。
 
-**发布**（仅维护者）：需要两个前置——本机 GPG 私钥（settings.xml 的 `gpg` server 存 passphrase）、`~/.m2/settings.xml` 中的 Central Portal token（`<server><id>central</id>`，在 central.sonatype.com 生成）。执行 `mvn -B clean deploy -Prelease`（签名 + sources/javadoc + Portal 上传自动发布）。修改版本号需同步 README 依赖示例与 Changelog。
+**发布**（仅维护者）：需要两个前置——本机 GPG 私钥与 passphrase（deploy 时经 `-Dgpg.passphrase` 传入）、`~/.m2/settings.xml` 中的 Central Portal token（`<server><id>sonatype-central</id>`，在 central.sonatype.com 生成）。执行 `mvn -B clean deploy -Prelease -Dgpg.passphrase=...`（签名 + sources/javadoc + Portal 上传自动发布）。修改版本号需同步 README 依赖示例与 Changelog。
 
 ## 代码风格约定
 
