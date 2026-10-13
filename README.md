@@ -5,7 +5,7 @@
 <dependency>
   <groupId>com.github.acshmily</groupId>
   <artifactId>mask-info-spring-boot-starter</artifactId>
-  <version>1.1</version>
+  <version>1.2</version>
 </dependency>
 ```
 
@@ -42,6 +42,8 @@ public class UserDemo {
     private String idCard;
 }
 ```
+Fields declared on parent classes are masked too. Custom mask char via `@MaskType(Strategy = MaskType.Strategy.MOBILE, maskString = "#")`.
+
 ## Modify your Controller
 
 ```java
@@ -64,5 +66,26 @@ public class Controller {
     }
 }
 ```
+
+`@Mask` can also be placed on the class — all methods of that class are then masked. Besides single objects, `List` / `Set` / Spring Data `Page` return values are masked element by element. Masking failures (e.g. missing getter/setter) are logged and skipped, never breaking your API response. `null` fields stay `null`.
+
+## Changelog
+
+### 1.2
+- Fix: class-level `@Mask` now takes effect (`@annotation` + `@within` pointcuts)
+- Fix: fields declared on parent classes are now masked
+- Fix: missing getter/setter no longer throws and breaks the response — the field is skipped with a warn log
+- Fix: `null` field values stay `null`, empty strings stay empty (previously both became a single `*`)
+- Fix: field type check uses `field.getType() == String.class` instead of string comparison
+- Perf: per-class reflection results (annotated fields + resolved getter/setter) cached via `computeIfAbsent`, negative caching for classes without annotated fields
+- Build: Java 8 bytecode, verified on JDK 8 / 17 / 21 (CI matrix); reproducible build (Spring baseline pinned to 2.7.18, deps stay `provided`)
+- Build: publishing migrated from the retired OSSRH to the Central Publisher Portal
+- Note: `ClassCacheContainer` (internal utility) now caches `MaskFieldDescriptor` lists; its old `Field[]` / method-signature APIs were removed
+
+### 1.1
+- Page mask support
+
+### 1.0
+- Initial release
 
 enjoy~~~
