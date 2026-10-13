@@ -91,7 +91,16 @@ mvn -B verify    # 编译 + 全量测试 + javadoc/sources jar（无需 GPG，�
 
 **新增返回类型支持**（如 `Map`、`Optional`）：在 `InfoMaskInterceptor.maskResult` 的分发逻辑中添加。
 
-**发布**（仅维护者）：需要两个前置——本机 GPG 私钥与 passphrase（deploy 时经 `-Dgpg.passphrase` 传入）、`~/.m2/settings.xml` 中的 Central Portal token（`<server><id>sonatype-central</id>`，在 central.sonatype.com 生成）。执行 `mvn -B clean deploy -Prelease -Dgpg.passphrase=...`（签名 + sources/javadoc + Portal 上传自动发布）。修改版本号需同步 README 依赖示例与 Changelog。
+**发布**（仅维护者）：前置——本机 GPG 私钥与 passphrase（deploy 时经 `-Dgpg.passphrase` 传入，settings.xml 中 `gpg` profile 的属性形式**不要激活**，其 `gpg.executable=gpg2` 在 macOS 上不存在）、`~/.m2/settings.xml` 中的 Central Portal token（`<server><id>sonatype-central</id>`）。
+
+注意：`central-publishing-maven-plugin 0.8.0` 生成的 bundle 会混入 `maven-metadata-local.xml` 与 `_remote.repositories*`，导致 Portal 校验失败（"does NOT have a .pom file"）。1.2 实际发布流程（已验证）：
+
+1. `mvn -B clean deploy -Prelease -Dgpg.passphrase=...`（生成签名好的 `target/central-staging/`，忽略其上传的失败 deployment）
+2. 清理 staging：删 `maven-metadata-local.xml`、`_remote.repositories*`，为 4 个构件补 `.md5/.sha1`（`md5 -q f > f.md5; shasum -a 1 f | awk '{print $1}' > f.sha1`，Portal 强制要求 md5+sha1）
+3. 在 staging 根目录 `zip -r bundle.zip com`，`curl -u user:pass -X POST https://central.sonatype.com/api/v1/publisher/upload -H "Publishing-Type: AUTOMATIC" -F "bundle=@bundle.zip"`（凭据读 settings.xml 的 `sonatype-central` server）
+4. 轮询 `GET .../publisher/status?deploymentId=` 直到 PUBLISHED，最终以 repo1.maven.org 可检索为准
+
+修改版本号需同步 README 依赖示例与 Changelog。
 
 ## 代码风格约定
 
