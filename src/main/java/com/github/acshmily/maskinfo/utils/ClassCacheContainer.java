@@ -1,74 +1,32 @@
 package com.github.acshmily.maskinfo.utils;
 
 
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Author: Huanghz
- * description: 容器类
- * date:Created in 8:48 2022-3-7
- * modifyBy:
+ * description: 类级脱敏字段缓存。key 为业务类，value 为已解析好访问器的脱敏字段描述符。
+ * 无注解字段的类同样缓存空列表（负缓存）。2026-10 起：由 check-then-act 改为 computeIfAbsent 原子写入，
+ * 原基于 Field[] 与方法签名的缓存 API 移除（内部工具类，见 changelog）。
+ * date:Created in 2022-3-7
+ * modifyBy: 2026-10 缓存原子化，缓存内容升级为字段描述符
  **/
 public final class ClassCacheContainer {
-    /**
-     * 添加缓存
-     * @param clazz
-     * @param fields
-     */
-    public static void addClassFields(Class clazz, Field[] fields){
-        cacheClassFields.put(clazz,fields);
-    }
+
+    private static final ConcurrentHashMap<Class<?>, List<MaskFieldDescriptor>> CACHE
+            = new ConcurrentHashMap<>();
 
     /**
-     * 获取缓存
-     * @param clazz
-     * @return
+     * 获取某类的待脱敏字段描述符，首次访问时解析并缓存
+     *
+     * @param clazz 业务类
+     * @return 描述符列表，可能为空（表示该类无字段需要脱敏）
      */
-    public static Field[] getClassFields(Class clazz){
-        return cacheClassFields.get(clazz);
+    public static List<MaskFieldDescriptor> getMaskFields(Class<?> clazz) {
+        return CACHE.computeIfAbsent(clazz, MaskFieldDescriptor::resolveAll);
     }
 
-    /**
-     * 判断缓存是否命中
-     * @param clazz
-     * @return
-     */
-    public static boolean existClassFields(Class clazz){
-        return cacheClassFields.containsKey(clazz);
+    private ClassCacheContainer() {
     }
-
-    /**
-     * 添加方法缓存
-     * @param methodSignature
-     * @param annotations
-     */
-    public static void addMethodSignature(Method methodSignature, Annotation[][] annotations){
-        cacheMethodSignatures.put(methodSignature,annotations);
-    }
-    /**
-     * 判断缓存是否命中
-     * @param methodSignature
-     * @return
-     */
-    public static boolean existMethodSignature(Method methodSignature){
-        return cacheMethodSignatures.containsKey(methodSignature);
-    }
-
-    /**
-     * 获取方法缓存
-     * @param methodSignature
-     * @return
-     */
-    public static Annotation[][] getMethodSignature(Method methodSignature){
-        return cacheMethodSignatures.get(methodSignature);
-    }
-
-    private static final ConcurrentHashMap<Class, Field[]> cacheClassFields = new ConcurrentHashMap<>();
-
-    private static final ConcurrentHashMap<Method, Annotation[][]> cacheMethodSignatures = new ConcurrentHashMap<>();
-    private ClassCacheContainer(){}
 }
